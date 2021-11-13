@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!--Import Google Icon Font-->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+			integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<!-- Compiled and minified CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+		/>
+		<title>Library Management System</title>
+	</head>
+	<body>
+		<header>
+			<nav class="nav-wrapper blue lighten-1">
+				<div class="container">
+					<a href="/" class="brand-logo">LMS</a>
+					<a href="#" class="sidenav-trigger" data-target="sidebar-links"
+						><i class="material-icons">menu</i></a
+					>
+					<ul class="right hide-on-med-and-down">
+						<li><a href="/">Home</a></li>
+					</ul>
+					<ul class="sidenav" id="sidebar-links">
+						<li><a href="/">Home</a></li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+		<main class="section" id="main-section">
+			<div class="container">
+				<div class="row">
+					<div class="col s12 m8 offset-m2">
+						<div class="card">
+							<div class="card-content">
+								<div class="card-title center">Log in to your account...</div>
+
+								<form id="loginform" action="/authenticateuser" method="post">
+									{% csrf_token %}
+									<div class="row">
+										<div class="col l8 offset-l2 s12 input-field">
+											<i class="material-icons prefix">email</i>
+											<input id="email" name="email" type="email" class="validate" required />
+											<label for="email">Email</label>
+										</div>
+										<div class="col l8 offset-l2 s12 input-field">
+											<i class="material-icons prefix">password</i>
+											<input id="password" name="password" type="password" class="validate" required />
+											<label for="password">Password</label>
+										</div>
+										<div class="col s12 center input-field">
+											<button class="btn indigo darken-2 waves-effect" id="loginformbtn">
+												Login
+											</button>
+										</div>
+									</div>
+								</form>
+
+								<form id="signupform" action="/signupuser" method="post">
+									{% csrf_token %}
+									<div class="row">
+										<div class="col s12">
+											<div class="row">
+												<div class="col l6 s12 input-field">
+													<i class="material-icons prefix">person</i>
+													<input id="signupname" name="name" type="text" class="validate" required />
+													<label for="signupname">Name</label>
+												</div>
+												<div class="col l6 s12 input-field">
+													<i class="material-icons prefix">email</i>
+													<input id="signupemail" name="email" type="text" class="validate" required />
+													<label for="signupemail">Email</label>
+												</div>
+											</div>
+										</div>
+										<div class="col s12">
+											<div class="row">
+												<div class="col l6 s12 input-field">
+													<i class="material-icons prefix">password</i>
+													<input
+														id="signuppassword"
+														type="password"
+														name="password"
+														class="validate"
+														required
+													/>
+													<label for="signuppassword">Password</label>
+												</div>
+												<div class="col l6 s12 input-field">
+													<i class="material-icons prefix">password</i>
+													<input
+														id="signuppasswordconfirm"
+														type="password"
+														class="validate"
+														required
+													/>
+													<label for="signuppasswordconfirm">Confirm Password</label>
+												</div>
+											</div>
+										</div>
+										<div class="col s12 center input-field">
+											<button class="btn indigo darken-2 waves-effect" id="signformbtn">
+												Signup
+											</button>
+										</div>
+									</div>
+								</form>
+
+								<div class="row">
+									<div class="col s12 center">
+										<p>OR</p>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col s12 l8 offset-l2 center">
+										<a href="#" class="btn waves-effect" id="signup">Sign up with Email </a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+	</body>
+
+		<script
+			src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"
+		></script>
+
+		<!-- Compiled and minified JavaScript -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<script>
+	$(document).ready(function(){
+		$('.sidenav').sidenav();
+	});
+	</script>
+	<script>
+	$("#signupform").toggle();
+		$("#signup").click(()=>{
+			$("#signupform").toggle();
+			$("#loginform").toggle();
+			// $("#signup").toggle();
+			if($("#signup").text().includes("Sign up")){
+				$("#signup").text("Have account? Login")
+			}else{
+				$("#signup").text("Sign up with Email")
+			}
+		});
+	$("#signformbtn").attr("disabled",true)
+		$("#signuppasswordconfirm").blur(()=>{
+			var confirm = $("#signuppasswordconfirm").val();
+			var password = $("#signuppassword").val();
+			if(confirm != password){
+				 M.toast({html: 'Password does not match'});
+				 $("#signformbtn").attr("disabled",true)
+			}else{
+				$("#signformbtn").attr("disabled",false)
+			}
+		});
+	</script>
+	</html>

@@ -1,0 +1,21 @@
+<form id="updateBookForm" action="/updatebook" method="post">
+  {% csrf_token %}
+  <input name="bookid" value="{{Book.id}}" type="hidden" />
+  <div class="row">
+    <div class="col l6 offset-l3 s12 input-field">
+      <i class="material-icons prefix">book</i>
+      <input id="bookname" name="bookname" type="text" class="validate" value="{{Book.bookname}}" required />
+      <label for="email">Book Name</label>
+    </div>
+    <div class="col l6 offset-l3 s12 input-field">
+      <i class="material-icons prefix">person</i>
+      <input id="author" name="author" type="text" class="validate" value="{{Book.author}}" required />
+      <label for="author">Author Name</label>
+    </div>
+    <div class="col s12 center input-field">
+      <button type="submit" class="btn brown darken-2 waves-effect" id="updateBookFormBtn">
+        Update Book
+      </button>
+    </div>
+  </div>
+</form>
